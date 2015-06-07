@@ -1,5 +1,7 @@
 package obrien.entity;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -7,22 +9,92 @@ import java.util.Locale;
 /**
  * Representation of a trade message with validation.
  */
-public interface TradeMessage {
+public class TradeMessage {
 
-    public int getUserId();
+    @NotNull
+    private int userId;
+    @NotNull
+    private Currency currencyFrom;
+    @NotNull
+    private Currency currencyTo;
+    @NotNull
+    @Min(0)
+    private int amountSell;
+    @NotNull
+    @Min(0)
+    private int amountBuy;
+    @NotNull
+    @Min(0)
+    private float rate;
+    @NotNull
+    private Date timePlaced;
+    @NotNull
+    private Locale originatingCountry;
 
-    public Currency getCurrencyFrom();
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-    public Currency getCurrencyTo();
+    public void setCurrencyFrom(Currency currencyFrom) {
+        this.currencyFrom = currencyFrom;
+    }
 
-    public int amountSell();
+    public void setCurrencyTo(Currency currencyTo) {
+        this.currencyTo = currencyTo;
+    }
 
-    public int amountBuy();
+    public void setAmountSell(int amountSell) {
+        this.amountSell = amountSell;
+    }
 
-    public float rate();
+    public void setAmountBuy(int amountBuy) {
+        this.amountBuy = amountBuy;
+    }
 
-    public Date timePlaced();
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
 
-    public Locale originatingCountry();
+    public void setTimePlaced(Date timePlaced) {
+        this.timePlaced = timePlaced;
+    }
+
+    public void setOriginatingCountry(Locale originatingCountry) {
+        this.originatingCountry = originatingCountry;
+    }
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public Currency getCurrencyFrom() {
+        return currencyFrom;
+    }
+
+    public Currency getCurrencyTo() {
+        return currencyTo;
+    }
+
+    public int amountSell() {
+        return amountSell;
+    }
+
+    public int amountBuy() {
+        return amountBuy;
+    }
+
+    public float rate() {
+        return rate;
+    }
+
+    public Date timePlaced() {
+        return timePlaced;
+    }
+
+    public Locale originatingCountry() {
+        return originatingCountry;
+    }
+
 
 }
