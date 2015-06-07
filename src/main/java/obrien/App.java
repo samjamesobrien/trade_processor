@@ -13,6 +13,8 @@ import obrien.entity.TradeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Main class.
  */
@@ -47,6 +49,9 @@ public class App extends Application<AppConfiguration> {
     public void initialize(Bootstrap<AppConfiguration> bootstrap) {
         bootstrap.addBundle(this.hibernateBundle);
         bootstrap.addBundle(this.flywayBundle);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+        bootstrap.getObjectMapper().setDateFormat(dateFormat);
     }
 
     @Override

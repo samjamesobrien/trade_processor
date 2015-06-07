@@ -26,7 +26,7 @@ public class TradeMessage {
     @NotNull
     @Min(0)
     private float rate;
-    @NotNull
+    @NotNull//24­JAN­15 10:27:44
     private Date timePlaced;
     @NotNull
     private Locale originatingCountry;
