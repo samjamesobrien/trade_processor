@@ -1,6 +1,5 @@
 package obrien;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.github.joschi.dropwizard.flyway.FlywayBundle;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
@@ -56,7 +55,7 @@ public class App extends Application<AppConfiguration> {
 
     @Override
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
-        final TradeDao tradeDao = new TradeDao();
+        final TradeDao tradeDao = new TradeDao(hibernateBundle.getSessionFactory());
         final TradeResource tradeResource = new TradeResource(configuration, tradeDao);
         environment.jersey().register(tradeResource);
     }

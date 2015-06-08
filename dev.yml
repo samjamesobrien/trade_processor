@@ -7,8 +7,7 @@ database:
   # the username
   user: sam
 
-  # the password
-  password: ${database.password}
+  # h2 requires no password, for development use only
 
   # the JDBC URL
   url: jdbc:h2:dev

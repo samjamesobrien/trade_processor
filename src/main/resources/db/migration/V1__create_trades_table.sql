@@ -1,4 +1,4 @@
-create table searches (
+create table tradeMessages (
 	id serial,
 	userId int not null,
 	currencyFrom varchar(3) not null,
@@ -7,5 +7,5 @@ create table searches (
 	amountBuy int not null,
 	rate float not null,
 	timePlaced date not null,
-	locale varchar(2) not null
+	originatingCountry varchar(2) not null
 );

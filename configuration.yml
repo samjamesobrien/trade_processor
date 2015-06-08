@@ -2,7 +2,7 @@
 database:
 
   # the name of your JDBC driver
-  driver_class: org.h2.Driver
+  driverClass: org.h2.Driver
 
   # the username
   user: sam
@@ -15,13 +15,13 @@ database:
 
 # server settings
 server:
-  application_connectors:
+  applicationConnectors:
     - type: http
       port: 9918
 
-  admin_connectors:
+  adminConnectors:
     - type: http
       port: 9919
 
 # Max number of requests to service per second
-rate_limit: 100
+rateLimit: 100

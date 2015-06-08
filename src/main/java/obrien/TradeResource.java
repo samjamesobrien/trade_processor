@@ -1,5 +1,6 @@
 package obrien;
 
+import io.dropwizard.hibernate.UnitOfWork;
 import obrien.configuration.AppConfiguration;
 import obrien.dao.Dao;
 import obrien.dao.TradeDao;
@@ -8,11 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Trade API resource.
@@ -32,6 +35,7 @@ public class TradeResource {
         this.rateLimit = config.getRateLimit();
     }
 
+    @UnitOfWork
     @POST
     public Response submitMessage(TradeMessage tradeMessage) {
         // todo - hystrix rate limiting
@@ -39,4 +43,9 @@ public class TradeResource {
         return Response.ok().build();
     }
 
+    @UnitOfWork(readOnly = true)
+    @GET
+    public List<TradeMessage> getAllUsersMessages(int userId) {
+        return dao.retrieveAll(userId);
+    }
 }

@@ -10,5 +10,4 @@ public interface Dao<T> {
     public void insert(T element);
 
     public List<T> retrieveAll(int UserId) ;
-
 }
