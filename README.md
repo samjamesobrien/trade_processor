@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/samjamesobrien/trade_processor.svg)](https://travis-ci.org/samjamesobrien/trade_processor)
+
 # trade_processor
 toy project using dropwizard
 
@@ -10,8 +12,7 @@ curl -i -X GET localhost:9918/trade  -H "Content-Type: application/json" -d '134
 
 Run the migrations and the component
 ------------------------------------
-::
-	mvn clean package flyway:migrate && java -jar target/trade_processor-1.0-SNAPSHOT.jar server dev.yml
+mvn clean package flyway:migrate && java -jar target/trade_processor-1.0-SNAPSHOT.jar server dev.yml
 
 Clear the h2 db
 ---------------
