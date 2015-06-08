@@ -2,6 +2,7 @@ package obrien.entity;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -19,14 +20,14 @@ public class TradeMessage {
     private Currency currencyTo;
     @NotNull
     @Min(0)
-    private int amountSell;
+    private BigDecimal amountSell;
     @NotNull
     @Min(0)
-    private int amountBuy;
+    private BigDecimal amountBuy;
     @NotNull
     @Min(0)
-    private float rate;
-    @NotNull//24­JAN­15 10:27:44
+    private BigDecimal rate;
+    @NotNull
     private Date timePlaced;
     @NotNull
     private Locale originatingCountry;
@@ -43,15 +44,15 @@ public class TradeMessage {
         this.currencyTo = currencyTo;
     }
 
-    public void setAmountSell(int amountSell) {
+    public void setAmountSell(BigDecimal amountSell) {
         this.amountSell = amountSell;
     }
 
-    public void setAmountBuy(int amountBuy) {
+    public void setAmountBuy(BigDecimal amountBuy) {
         this.amountBuy = amountBuy;
     }
 
-    public void setRate(float rate) {
+    public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
 
@@ -76,15 +77,15 @@ public class TradeMessage {
         return currencyTo;
     }
 
-    public int amountSell() {
+    public BigDecimal amountSell() {
         return amountSell;
     }
 
-    public int amountBuy() {
+    public BigDecimal amountBuy() {
         return amountBuy;
     }
 
-    public float rate() {
+    public BigDecimal rate() {
         return rate;
     }
 
