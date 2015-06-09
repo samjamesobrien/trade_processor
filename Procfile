@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/trade_processor-1.0-SNAPSHOT.jar server dev.yml
+web: java $DB_CREDENTIALS $DW_PORT $JAVA_OPTS -jar target/trade_processor-1.0-SNAPSHOT.jar server dev.yml
