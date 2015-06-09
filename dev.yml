@@ -16,11 +16,11 @@ database:
 server:
   applicationConnectors:
     - type: http
-      port: 9918
+      port: 8800
 
   adminConnectors:
     - type: http
-      port: 9919
+      port: 8801
 
 # Max number of requests to service per second
 rateLimit: 100
