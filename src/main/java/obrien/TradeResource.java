@@ -48,7 +48,7 @@ public class TradeResource {
     @UnitOfWork(readOnly = true)
 
     @Path("/trade")
-    @PUT
+    @GET
     public List<TradeMessage> getAllUsersMessages(int userId) {
         return dao.retrieveAll(userId);
     }
