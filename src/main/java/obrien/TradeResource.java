@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Trade API resource.
  */
-@Path("/trade")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TradeResource {
@@ -35,8 +35,9 @@ public class TradeResource {
         this.rateLimit = config.getRateLimit();
     }
 
-    @UnitOfWork
+/*    @UnitOfWork
     @POST
+    @Path("/trade")
     public Response submitMessage(TradeMessage tradeMessage) {
         // todo - hystrix rate limiting
         dao.insert(tradeMessage);
@@ -45,7 +46,13 @@ public class TradeResource {
 
     @UnitOfWork(readOnly = true)
     @GET
+    @Path("/trade")
     public List<TradeMessage> getAllUsersMessages(int userId) {
         return dao.retrieveAll(userId);
+    }*/
+
+    @GET
+    public Response hello() {
+        return Response.status(200).entity("hello").build();
     }
 }
