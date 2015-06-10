@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -35,7 +36,7 @@ public class TradeResource {
         this.rateLimit = config.getRateLimit();
     }
 
-/*    @UnitOfWork
+    @UnitOfWork
     @POST
     @Path("/trade")
     public Response submitMessage(TradeMessage tradeMessage) {
@@ -45,11 +46,12 @@ public class TradeResource {
     }
 
     @UnitOfWork(readOnly = true)
-    @GET
+
     @Path("/trade")
+    @PUT
     public List<TradeMessage> getAllUsersMessages(int userId) {
         return dao.retrieveAll(userId);
-    }*/
+    }
 
     @GET
     public Response hello() {

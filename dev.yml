@@ -10,6 +10,10 @@ database:
   # the JDBC URL
   url: jdbc:h2:dev
 
+# logging
+logging:
+  level: INFO
+
 # server settings
 server:
   type: simple
