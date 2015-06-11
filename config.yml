@@ -24,4 +24,4 @@ server:
     port: 8080
 
 # Max number of requests to service per user per second
-rateLimit: 50
+rateLimit: 500
