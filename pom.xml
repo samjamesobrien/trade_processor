@@ -10,11 +10,16 @@
 
 	<properties>
 		<main.class>obrien.App</main.class>
-		<version.guava>15.0</version.guava>
-		<version.dropwizard>0.7.0</version.dropwizard>
+		<version.guava>18.0</version.guava>
+		<version.dropwizard>0.8.1</version.dropwizard>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-shade-plugin</artifactId>
@@ -64,6 +69,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${version.guava}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

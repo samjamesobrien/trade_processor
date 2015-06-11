@@ -4,11 +4,15 @@ database:
 
   # the name of your JDBC driver
   driverClass: org.h2.Driver
-  user: ignored
-  password: ignored
+  user: sam
+  password: password
 
   # the JDBC URL
   url: jdbc:h2:dev
+
+# logging
+logging:
+  level: INFO
 
 # server settings
 server:
@@ -19,5 +23,5 @@ server:
     type: http
     port: 8080
 
-# Max number of requests to service per second
-rateLimit: 100
+# Max number of requests to service per user per second
+rateLimit: 50

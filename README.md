@@ -21,6 +21,9 @@ Heroku provides some environment variables for the port you need to bind to, and
 
 In the Procfile we honor these environment variables, overriding fields set in the .yml.
 
+Interestingly we cannot run arbitrary maven commands on Heroku, so everything that needs to be done such as db migration
+ or configuring classes from environment variables is run automatically by the component itself.
+
 For the database, we have a modified getter which parses the Heroku environment variable if present and overrides our configuration.
 
 

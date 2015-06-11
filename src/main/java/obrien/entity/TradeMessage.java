@@ -44,6 +44,7 @@ public class TradeMessage {
     }
 
     @NotNull
+    @Min(0)
     public int getUserId() {
         return userId;
     }
