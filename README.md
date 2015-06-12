@@ -3,6 +3,15 @@
 # trade_processor
 toy project using dropwizard designed to be deployable to Heroku
 
+## TODO
+This is work in progress, remaining to do is some sort of GC method to transform consumed trades into raw metrics after
+a certain time in the DB and to clear out space unless I pay for a bigger DB. At a minimum a dropwizard task which
+clears the DB is required.
+
+I'd like to feed the trades into an RX java observable stream for processing and extract metrics, requests for trades
+should also be cached, we should only read from the DB at start-up or after the cache expires, the cache can update in
+parallel with persisting objects, I'd implement a CachedDAO interface for this.
+
 
 Sample Query using curl
 -----------------------
