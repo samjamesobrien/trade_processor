@@ -75,6 +75,7 @@ public class TradeResource {
      * @return index page generated from .md file.
      */
     @GET
+    @Produces(MediaType.TEXT_HTML)
     public Response index() {
         RateLimiter rl = getRateLimiter(0);
 
