@@ -29,7 +29,7 @@ public class TradeResourceTest {
     public void testRateLimiting() {
         boolean limitHit = false;
         for (int i = 0; i < 1000; i++) {
-            Response r = tradeResource.hello();
+            Response r = tradeResource.index();
             if (r.getStatus() != 200) {
                 limitHit = true;
                 break;

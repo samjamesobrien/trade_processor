@@ -1,8 +1,11 @@
 package obrien;
 
+import com.github.rjeschke.txtmark.DefaultDecorator;
+import com.github.rjeschke.txtmark.Processor;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.io.Resources;
 import com.google.common.util.concurrent.RateLimiter;
 import io.dropwizard.hibernate.UnitOfWork;
 import obrien.configuration.AppConfiguration;
@@ -11,7 +14,9 @@ import obrien.dao.TradeDao;
 import obrien.entity.TradeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
+import javax.swing.text.html.HTMLDocument;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,6 +24,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +46,7 @@ public class TradeResource {
 
     private static int rateLimit;
     private static Response TOO_MANY_REQUESTS;
+    private static String index;
 
     private final Dao<TradeMessage> dao;
 
@@ -60,14 +71,25 @@ public class TradeResource {
     }
 
     /**
-     * We could do something more interesting with this...
-     * @return hello.
+     * Return the README.md file as html.
+     * @return index page generated from .md file.
      */
     @GET
-    public Response hello() {
+    public Response index() {
         RateLimiter rl = getRateLimiter(0);
+
+        if (index == null) {
+            File file = new File("README.md");
+            try {
+                index = Processor.process(file);
+            } catch (IOException e) {
+                index = "default index";
+                LOG.error("Couldn't read file");
+            }
+        }
+
         if (rl.tryAcquire(MAX_WAIT_MILLIS, TimeUnit.MILLISECONDS)) {
-            return Response.status(200).entity("hello").build();
+            return Response.status(200).entity(index).build();
         } else {
             return TOO_MANY_REQUESTS;
         }

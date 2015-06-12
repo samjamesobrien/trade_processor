@@ -9,11 +9,11 @@ Sample Query using curl
 
 Jackson validates these and will reject malformed objects
 
-`curl -i -X POST localhost:9918/trade  -H "Content-Type: application/json" -d '{"userId":"134256","currencyFrom":"EUR","currencyTo":"GBP","amountSell":1000,"amountBuy":747.10,"rate":0.7471,"timePlaced":"24-JAN-15 10:27:44","originatingCountry":"FR"}'`
+`curl -i -X POST {location}/trade  -H "Content-Type: application/json" -d '{"userId":"134256","currencyFrom":"EUR","currencyTo":"GBP","amountSell":1000,"amountBuy":747.10,"rate":0.7471,"timePlaced":"24-JAN-15 10:27:44","originatingCountry":"FR"}'`
 
-`curl -i -X GET localhost:9918/trade  -H "Content-Type: application/json" -d '134256'`
+`curl -i -X GET {location}/trade  -H "Content-Type: application/json" -d '134256'`
 
-`curl -i -X GET localhost:9918/`
+`curl -i -X GET {location}/`
 
 
 Floating point errors
