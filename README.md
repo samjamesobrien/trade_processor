@@ -13,6 +13,18 @@ Jackson validates these and will reject malformed objects
 
 `curl -i -X GET localhost:9918/trade  -H "Content-Type: application/json" -d '134256'`
 
+`curl -i -X GET localhost:9918/`
+
+
+Floating point errors
+---------------------
+
+Unfortunately the specified json values for trades are floating point numbers, so even though we store them as BigDecimal,
+floating point errors are present on the values at deserialization time.
+
+I think it would be a questionable tactic to perform rounding at ingress time but is easily achievable,
+but represents a code smell. The message API spec should change, but the above is the spec I received and so we work with that.
+
 
 Heroku configuration
 --------------------
@@ -25,6 +37,26 @@ Interestingly we cannot run arbitrary maven commands on Heroku, so everything th
  or configuring classes from environment variables is run automatically by the component itself.
 
 For the database, we have a modified getter which parses the Heroku environment variable if present and overrides our configuration.
+
+
+Rate limiting
+-------------
+
+Configurable per user rate limiting has been implemented using guavas RateLimiter class. I originally had a method which
+wrapped a lambda with a rate limit, the task such as persisting or retrieving objects to/from the db,
+but the code was too difficult to read and for our small number of resource methods, didn't reduce the lines of code.
+
+
+Dependency Injection
+--------------------
+
+...was not used. In my experience using the Guice dropwizard plugin or dependency injection in general with dropwizard leads
+to more trouble than it saves. The Dropwizard lifecycle means that in certain circumstances you will not have access to
+configuration fields, as the injected Config class may not have been initialized, as it only exists after the bootstrap phase.
+
+This breaks the abstraction that we can just magically have a config object when needed, and leads to awkward code.
+
+So for this project I opted against dependency injection.
 
 
 Flyway & database migration
@@ -50,4 +82,4 @@ Clear the h2 db
 
 For local development without needing postgres, h2 is used, it creates .db files in lieu of a proper database.
 
-rm *.db
+    `rm *.db`
