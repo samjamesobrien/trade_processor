@@ -149,7 +149,7 @@
 				<version>3.0</version>
 				<configuration>
 					<url>jdbc:h2:file:dev</url>
-					<user>sam</user>
+					<user>user</user>
 					<password>password</password>
 				</configuration>
 				<dependencies>
