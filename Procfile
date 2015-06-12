@@ -1,1 +1,1 @@
-web: java -Ddw.server.connector.port=$PORT -Ddw.database.url=$DATABASE_URL $JAVA_OPTS -jar target/trade_processor-1.0-SNAPSHOT.jar server dev.yml
+web: java -Ddw.server.connector.port=$PORT -Ddw.database.url=$DATABASE_URL $JAVA_OPTS -jar target/trade_processor-1.0-SNAPSHOT.jar server config.yml
