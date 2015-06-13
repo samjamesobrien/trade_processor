@@ -28,7 +28,7 @@ public class TradeResourceTest {
     @Test
     public void testRateLimiting() {
         boolean limitHit = false;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10; i++) {
             Response r = tradeResource.index();
             if (r.getStatus() != 200) {
                 limitHit = true;

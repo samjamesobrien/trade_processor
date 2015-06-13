@@ -71,7 +71,8 @@ public class TradeResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response index() {
-        RateLimiter rl = getRateLimiter(0);
+        // We don't want a particular users rate limiter, just any
+        RateLimiter rl = getRateLimiter(-1);
 
         if (index == null) {
             File file = new File("README.md");
@@ -79,14 +80,14 @@ public class TradeResource {
                 index = Processor.process(file);
             } catch (IOException e) {
                 index = "default index";
-                LOG.error("Couldn't read file");
+                LOG.error("Couldn't read file from path: {}", file.getPath());
             }
         }
 
         if (rl.tryAcquire(MAX_WAIT_MILLIS, TimeUnit.MILLISECONDS)) {
             return Response.status(200).entity(index).build();
         } else {
-            LOG.info("Index exceeded request rate");
+            LOG.info("Index request rate exceeded, limit: {}", rateLimit);
             return Response.status(429).entity(TOO_MANY_REQUESTS).build();
         }
     }

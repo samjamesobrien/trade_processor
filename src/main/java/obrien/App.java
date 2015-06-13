@@ -58,6 +58,7 @@ public class App extends Application<AppConfiguration> {
     public void run(AppConfiguration configuration, Environment environment) throws Exception {
         Flyway flyway = new Flyway();
         DataSourceFactory db = configuration.getDataSourceFactory();
+
         flyway.setDataSource(db.getUrl(), db.getUser(), db.getPassword());
         flyway.migrate();
 
