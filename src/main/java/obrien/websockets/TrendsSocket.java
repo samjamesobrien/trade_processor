@@ -43,10 +43,14 @@ public class TrendsSocket extends WebSocketAdapter {
         LOG.info("Got text {} from {}", message, Integer.toHexString(getSession().hashCode()));
     }
 
-    public static void broadcast(String msg) {
+    /**
+     * Send the message to the web socket.
+     * @param message string to be sent.
+     */
+    public static void broadcast(String message) {
         sessions.forEach(session -> {
             try {
-                session.getRemote().sendString(msg);
+                session.getRemote().sendString(message);
             } catch (IOException e) {
                 LOG.error("Problem broadcasting message", e);
             }
