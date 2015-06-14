@@ -1,8 +1,11 @@
 package obrien.resources;
 
-import javax.ws.rs.GET;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import obrien.websockets.TrendsSocket;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
 
 /**
  * Expose trends to a websocket.
@@ -10,8 +13,17 @@ import javax.ws.rs.core.Response;
 @Path("/trends")
 public class TrendsResource {
 
-    @GET
-    public Response trend() {
-            return Response.status(200).build();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @POST
+    @Consumes("application/json")
+    public void broadcast(Object data) throws Exception {
+        TrendsSocket.broadcast(objectMapper.writeValueAsString(data));
+    }
+
+    @POST
+    @Consumes("text/plain")
+    public void broadcastString(String data) throws Exception {
+        TrendsSocket.broadcast("Client message: " + data);
     }
 }

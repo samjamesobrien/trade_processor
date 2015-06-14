@@ -12,9 +12,20 @@
 		<main.class>obrien.App</main.class>
 		<version.guava>18.0</version.guava>
 		<version.dropwizard>0.8.1</version.dropwizard>
+		<version.jetty>9.2.11.v20150529</version.jetty>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-api</artifactId>
+			<version>${version.jetty}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty.websocket</groupId>
+			<artifactId>websocket-server</artifactId>
+			<version>${version.jetty}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.newrelic.agent.java</groupId>
 			<artifactId>newrelic-agent</artifactId>

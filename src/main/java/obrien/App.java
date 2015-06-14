@@ -14,6 +14,7 @@ import obrien.entity.TradeMessage;
 import obrien.resources.ReadmeResource;
 import obrien.resources.TradeResource;
 import obrien.resources.TrendsResource;
+import obrien.websockets.TrendsServlet;
 import org.flywaydb.core.Flyway;
 
 import java.text.SimpleDateFormat;
@@ -76,5 +77,7 @@ public class App extends Application<AppConfiguration> {
         environment.jersey().register(readmeResource);
         environment.jersey().register(tradeResource);
         environment.jersey().register(trendsResource);
+        environment.getApplicationContext().getServletHandler().addServletWithMapping(
+                TrendsServlet.class, "/api/ws/*");
     }
 }

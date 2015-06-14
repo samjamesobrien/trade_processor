@@ -14,10 +14,13 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.math.RoundingMode;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static obrien.Util.DefaultValues.MAX_WAIT_MILLIS;
 
@@ -50,9 +53,9 @@ public class TradeResource {
     public Response submitMessage(TradeMessage tradeMessage) {
         RateLimiter rl = rlp.getRateLimiter(tradeMessage.getUserId());
         if (rl.tryAcquire(100, TimeUnit.MILLISECONDS)) {
-            dao.insert(tradeMessage);
+            dao.insert(getPublicFormat(tradeMessage));
             LOG.debug("User: {} registered a trade", tradeMessage.getUserId());
-            return Response.status(201).build();
+            return Response.status(201).header("Location", "hidden").build();
         } else {
             LOG.info("User: {} exceeded their request rate", tradeMessage.getUserId());
             return Response.status(429).entity(TOO_MANY_REQUESTS).build();
@@ -61,14 +64,29 @@ public class TradeResource {
 
     @UnitOfWork(readOnly = true)
     @GET
-    public Response getAllUsersMessages(int userId) {
+    @Path("/{userId}")
+    public Response getAllUsersMessages(@PathParam("userId") int userId) {
         RateLimiter rl = rlp.getRateLimiter(userId);
         if (rl.tryAcquire(MAX_WAIT_MILLIS, TimeUnit.MILLISECONDS)) {
             LOG.debug("User: {} requested their trades", userId);
-            return Response.ok().entity(dao.retrieveAll(userId)).build();
+            return Response.ok().entity(dao.retrieveAll(userId).stream()
+                    .map(this::getPublicFormat).collect(Collectors.toList())).build();
         } else {
             LOG.info("User: {} exceeded their request rate", userId);
             return Response.status(429).entity(TOO_MANY_REQUESTS).build();
         }
+    }
+
+    /**
+     * Returns an altered object with decimals rounded to 4 places.
+     * <p>Messing with getters and setters in the entity directly affects how objects are persisted by hibernate.
+     * We persist to 6 decimal places, but only show 4 externally using this method.</p>
+     * @return modified trade message.
+     */
+    private TradeMessage getPublicFormat(TradeMessage tm) {
+        tm.setAmountSell(tm.getAmountSell().setScale(4, RoundingMode.HALF_UP));
+        tm.setAmountBuy(tm.getAmountBuy().setScale(4, RoundingMode.HALF_UP));
+        tm.setRate(tm.getRate().setScale(4, RoundingMode.HALF_UP));
+        return tm;
     }
 }
