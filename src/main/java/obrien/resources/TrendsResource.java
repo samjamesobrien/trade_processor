@@ -10,7 +10,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 /**
- * Expose trends to a websocket.
+ * Exposes the websocket to arbitrary calls.
+ * <p>This isn't a necessary resource but could be useful.</p>
  */
 @Path("/trends")
 public class TrendsResource {

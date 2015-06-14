@@ -7,7 +7,6 @@ import obrien.configuration.AppConfiguration;
 import obrien.dao.Dao;
 import obrien.dao.TradeDao;
 import obrien.entity.TradeMessage;
-import obrien.processing.Trends;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,15 +48,13 @@ public class TradeResource {
         }
     }
 
-    @UnitOfWork
     @POST
     public Response submitMessage(TradeMessage tradeMessage) {
         RateLimiter rl = rlp.getRateLimiter(tradeMessage.getUserId());
         if (rl.tryAcquire(100, TimeUnit.MILLISECONDS)) {
-            dao.insert(getPublicFormat(tradeMessage));
-            Trends.submitTrade(tradeMessage);
+            dao.insert(tradeMessage);
             LOG.debug("User: {} registered a trade", tradeMessage.getUserId());
-            return Response.status(201).header("Location", "hidden").build();
+            return Response.status(200).build();
         } else {
             LOG.info("User: {} exceeded their request rate", tradeMessage.getUserId());
             return Response.status(429).entity(TOO_MANY_REQUESTS).build();
