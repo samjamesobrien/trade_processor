@@ -10,6 +10,7 @@ import obrien.Util.RateLimitProvider;
 import obrien.configuration.AppConfiguration;
 import obrien.dao.TradeDao;
 import obrien.entity.TradeMessage;
+import obrien.resources.IndexResource;
 import obrien.resources.ReadmeResource;
 import obrien.resources.TradeResource;
 import obrien.resources.TrendsResource;
@@ -70,10 +71,15 @@ public class App extends Application<AppConfiguration> {
         final TradeDao tradeDao = new TradeDao(hibernateBundle.getSessionFactory());
         final RateLimitProvider rateLimitProvider = new RateLimitProvider(configuration);
 
-        // Register our resources
+        // instantiate and register our resources
+        final IndexResource indexResource = new IndexResource();
         final ReadmeResource readmeResource = new ReadmeResource(configuration);
         final TradeResource tradeResource = new TradeResource(configuration, tradeDao, rateLimitProvider);
         final TrendsResource trendsResource = new TrendsResource();
+
+        environment.jersey().register(indexResource);
+        environment.jersey().register(readmeResource);
         environment.jersey().register(tradeResource);
+        environment.jersey().register(trendsResource);
     }
 }

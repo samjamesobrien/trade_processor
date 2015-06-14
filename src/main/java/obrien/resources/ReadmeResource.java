@@ -26,7 +26,7 @@ public class ReadmeResource {
 
     private static int rateLimit;
     private static String TOO_MANY_REQUESTS;
-    private static String index;
+    private static String readme;
     private static RateLimiter rateLimiter;
 
     public ReadmeResource(AppConfiguration config) {
@@ -44,18 +44,20 @@ public class ReadmeResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response readme() {
-        if (index == null) {
+        if (readme == null) {
             File file = new File("README.md");
             try {
-                index = Processor.process(file);
+                // Convert .md to .html
+                readme = Processor.process(file);
             } catch (IOException e) {
-                index = "default index";
                 LOG.error("Couldn't read file from path: {}", file.getPath());
             }
         }
 
-        if (rateLimiter.tryAcquire(MAX_WAIT_MILLIS, TimeUnit.MILLISECONDS)) {
-            return Response.status(200).entity(index).build();
+        if (rateLimiter.tryAcquire(MAX_WAIT_MILLIS, TimeUnit.MILLISECONDS) && readme != null) {
+            return Response.status(200).entity(readme).build();
+        } else if (readme == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         } else {
             LOG.info("readme page request rate exceeded, limit: {}", rateLimit);
             return Response.status(429).entity(TOO_MANY_REQUESTS).build();

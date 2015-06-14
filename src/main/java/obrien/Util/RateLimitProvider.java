@@ -44,7 +44,7 @@ public class RateLimitProvider {
 
 
     /**
-     * Get a new or cahced RateLiiter for the user if it exists.
+     * Get a new or cached RateLimiter for the user if it exists.
      * @param userId the key for the cached rate limiter.
      * @return this users rate limiter.
      */
