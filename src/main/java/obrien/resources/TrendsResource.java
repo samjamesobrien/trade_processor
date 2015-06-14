@@ -13,6 +13,5 @@ public class TrendsResource {
     @GET
     public Response trend() {
             return Response.status(200).build();
-
     }
 }

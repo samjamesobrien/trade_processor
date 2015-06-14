@@ -2,6 +2,7 @@ package obrien;
 
 import com.github.joschi.dropwizard.flyway.FlywayBundle;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -10,13 +11,10 @@ import obrien.Util.RateLimitProvider;
 import obrien.configuration.AppConfiguration;
 import obrien.dao.TradeDao;
 import obrien.entity.TradeMessage;
-import obrien.resources.IndexResource;
 import obrien.resources.ReadmeResource;
 import obrien.resources.TradeResource;
 import obrien.resources.TrendsResource;
 import org.flywaydb.core.Flyway;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 
@@ -27,8 +25,6 @@ public class App extends Application<AppConfiguration> {
 
     private final HibernateBundle<AppConfiguration> hibernateBundle;
     private final FlywayBundle flywayBundle;
-
-    private static final Logger log = LoggerFactory.getLogger(App.class);
 
 
     public static void main(String[] args) throws Exception {
@@ -54,6 +50,7 @@ public class App extends Application<AppConfiguration> {
     public void initialize(Bootstrap<AppConfiguration> bootstrap) {
         bootstrap.addBundle(this.hibernateBundle);
         bootstrap.addBundle(this.flywayBundle);
+        bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
         bootstrap.getObjectMapper().setDateFormat(dateFormat);
@@ -72,12 +69,10 @@ public class App extends Application<AppConfiguration> {
         final RateLimitProvider rateLimitProvider = new RateLimitProvider(configuration);
 
         // instantiate and register our resources
-        final IndexResource indexResource = new IndexResource();
         final ReadmeResource readmeResource = new ReadmeResource(configuration);
         final TradeResource tradeResource = new TradeResource(configuration, tradeDao, rateLimitProvider);
         final TrendsResource trendsResource = new TrendsResource();
 
-        environment.jersey().register(indexResource);
         environment.jersey().register(readmeResource);
         environment.jersey().register(tradeResource);
         environment.jersey().register(trendsResource);

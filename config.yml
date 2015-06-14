@@ -16,6 +16,7 @@ logging:
 # server settings
 server:
   type: simple
+  rootPath: '/api/*'
   applicationContextPath: /
   adminContextPath: /admin
   connector:

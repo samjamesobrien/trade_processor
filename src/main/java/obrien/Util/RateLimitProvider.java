@@ -5,7 +5,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.RateLimiter;
 import obrien.configuration.AppConfiguration;
-import obrien.resources.TradeResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RateLimitProvider {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TradeResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RateLimitProvider.class);
     private static final int CACHE_SIZE = 10000;
     private static final int DEFAULT_RATE_LIMIT_SECONDS = 10;
 

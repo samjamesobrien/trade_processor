@@ -51,10 +51,7 @@ For the database, we have a modified getter which parses the Heroku environment 
 Rate limiting
 -------------
 
-Configurable per user rate limiting has been implemented using guavas RateLimiter class. I originally had a method which
-wrapped a lambda with a rate limit, such as persisting or retrieving objects to/from the db,
-but for our small number of resource methods it didn't reduce the lines of code and reduced legibility.
-
+Configurable per user rate limiting has been implemented using guavas RateLimiter class.
 Per user RateLimiter objects are cached.
 
 
@@ -65,9 +62,9 @@ Dependency Injection
 to more trouble than it saves. The Dropwizard lifecycle means that in certain circumstances you will not have access to
 configuration fields, as the injected Config class may not have been initialized, as it only exists after the bootstrap phase.
 
-This breaks the abstraction that we can just magically have a config object when needed, and leads to awkward code.
+This breaks the abstraction that we can just magically have a config object when needed, and leads to some awkward code.
 
-So for this project I opted against dependency injection.
+So for this project I opted against dependency injection although it would have worked just fine for this use case.
 
 
 Flyway & database migration
@@ -83,7 +80,7 @@ You can also run:
 Run the component
 -----------------
 
-###### Note - for non Heroku usage, set the databse credentials in your .yml as per the flyway config in the pom.xml
+###### Note - for non Heroku usage, set the database credentials in your .yml as per the flyway config in the pom.xml
 
     `java -jar target/trade_processor-1.0-SNAPSHOT.jar server some_config.yml`
 

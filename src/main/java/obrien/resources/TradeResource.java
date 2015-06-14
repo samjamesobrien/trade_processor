@@ -24,7 +24,7 @@ import static obrien.Util.DefaultValues.MAX_WAIT_MILLIS;
 /**
  * Trade API resource.
  */
-@Path("/")
+@Path("/trade")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TradeResource {
@@ -47,7 +47,6 @@ public class TradeResource {
 
     @UnitOfWork
     @POST
-    @Path("/trade")
     public Response submitMessage(TradeMessage tradeMessage) {
         RateLimiter rl = rlp.getRateLimiter(tradeMessage.getUserId());
         if (rl.tryAcquire(100, TimeUnit.MILLISECONDS)) {
@@ -61,7 +60,6 @@ public class TradeResource {
     }
 
     @UnitOfWork(readOnly = true)
-    @Path("/trade")
     @GET
     public Response getAllUsersMessages(int userId) {
         RateLimiter rl = rlp.getRateLimiter(userId);
