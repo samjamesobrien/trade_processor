@@ -52,8 +52,10 @@ Rate limiting
 -------------
 
 Configurable per user rate limiting has been implemented using guavas RateLimiter class. I originally had a method which
-wrapped a lambda with a rate limit, the task such as persisting or retrieving objects to/from the db,
-but the code was too difficult to read and for our small number of resource methods, didn't reduce the lines of code.
+wrapped a lambda with a rate limit, such as persisting or retrieving objects to/from the db,
+but for our small number of resource methods it didn't reduce the lines of code and reduced legibility.
+
+Per user RateLimiter objects are cached.
 
 
 Dependency Injection

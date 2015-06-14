@@ -6,9 +6,13 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import obrien.Util.RateLimitProvider;
 import obrien.configuration.AppConfiguration;
 import obrien.dao.TradeDao;
 import obrien.entity.TradeMessage;
+import obrien.resources.ReadmeResource;
+import obrien.resources.TradeResource;
+import obrien.resources.TrendsResource;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,8 +66,14 @@ public class App extends Application<AppConfiguration> {
         flyway.setDataSource(db.getUrl(), db.getUser(), db.getPassword());
         flyway.migrate();
 
+        // Get our dependency instances
         final TradeDao tradeDao = new TradeDao(hibernateBundle.getSessionFactory());
-        final TradeResource tradeResource = new TradeResource(configuration, tradeDao);
+        final RateLimitProvider rateLimitProvider = new RateLimitProvider(configuration);
+
+        // Register our resources
+        final ReadmeResource readmeResource = new ReadmeResource(configuration);
+        final TradeResource tradeResource = new TradeResource(configuration, tradeDao, rateLimitProvider);
+        final TrendsResource trendsResource = new TrendsResource();
         environment.jersey().register(tradeResource);
     }
 }
