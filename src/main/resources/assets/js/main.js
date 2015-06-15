@@ -1,3 +1,6 @@
+if (window.location.protocol != "http:")
+	window.location.href = "http:" + window.location.href.substring(window.location.protocol.length);
+
 $(document).ready(function() {
 	var socket = new WebSocket('ws://trade-processor.herokuapp.com/api/ws');
 	var container = $('#trades');
