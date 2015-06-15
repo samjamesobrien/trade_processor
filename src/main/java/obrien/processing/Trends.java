@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.EvictingQueue;
 import obrien.Util.DefaultValues;
 import obrien.entity.TradeMessage;
-import obrien.websockets.TrendsSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +22,8 @@ import static obrien.Util.DefaultValues.*;
  */
 public class Trends {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-    private static final Logger LOG = LoggerFactory.getLogger(Trends.class);
-
     // This could be something much more interesting, but I am low on time
     private static final Map<Currency, EvictingQueue<BigDecimal>> trends = new ConcurrentHashMap<>();
-
 
     /**
      * Submit a trade message for metrics extraction.
@@ -48,22 +43,13 @@ public class Trends {
                 boughtCurrency, EvictingQueue.create(LAST_N_TRADES));
         boughtRecents.add(tradeMessage.getAmountBuy());
         trends.put(boughtCurrency, boughtRecents);
-
-        // Totals for each currency, bought - sold
-        Map totals = calculateTotals(trends);
-
-        try {
-            TrendsSocket.broadcast(MAPPER.writeValueAsString(totals));
-        } catch (JsonProcessingException e) {
-            LOG.error("Failed to serialize a trade message for some reason", e);
-        }
     }
 
     /**
      * What are the totals bought - sold for the currencies?
      * @return map of totals for the currencies.
      */
-    private static Map<Currency, BigDecimal> calculateTotals(Map<Currency, EvictingQueue<BigDecimal>> trends) {
+    public static Map<Currency, BigDecimal> calculateTotals() {
         HashMap<Currency, BigDecimal> output = new HashMap<>();
 
         trends.keySet().forEach((key) -> {
@@ -72,5 +58,4 @@ public class Trends {
         });
         return output;
     }
-
 }
