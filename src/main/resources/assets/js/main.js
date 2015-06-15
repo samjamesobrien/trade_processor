@@ -3,9 +3,11 @@ $(document).ready(function() {
 	var container = $('#trades');
 
 	socket.onmessage = function(data) {
+		container.innerHTML = "";
+
 		console.log("got a message: " + data.data.toSource);
 		var newItem = $('<div>' + data.data + '</div>');
-		// container.innerHTML = "";    // When I am sending some more interesting data structure, we will display that alone
+		document.getElementById($('#trades')).innerHTML="";
 		container.append(newItem);
 	};
 });

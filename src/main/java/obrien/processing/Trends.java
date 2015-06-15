@@ -3,6 +3,7 @@ package obrien.processing;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.EvictingQueue;
+import obrien.Util.DefaultValues;
 import obrien.entity.TradeMessage;
 import obrien.websockets.TrendsSocket;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static obrien.Util.DefaultValues.*;
 
 /**
  * Track overall metrics for trades.
@@ -34,13 +37,15 @@ public class Trends {
     public static void submitTrade(TradeMessage tradeMessage) {
         // For the currency sold, update the last recent trades
         Currency soldCurrency = tradeMessage.getCurrencyFrom();
-        EvictingQueue<BigDecimal> soldRecents = trends.getOrDefault(soldCurrency, EvictingQueue.create(10));
+        EvictingQueue<BigDecimal> soldRecents = trends.getOrDefault(
+                soldCurrency, EvictingQueue.create(LAST_N_TRADES));
         soldRecents.add(tradeMessage.getAmountSell().negate()); // a critical difference, .negate()
         trends.put(soldCurrency, soldRecents);
 
         // For the currency bought, update the last recent trades
         Currency boughtCurrency = tradeMessage.getCurrencyTo();
-        EvictingQueue<BigDecimal> boughtRecents = trends.getOrDefault(boughtCurrency, EvictingQueue.create(10));
+        EvictingQueue<BigDecimal> boughtRecents = trends.getOrDefault(
+                boughtCurrency, EvictingQueue.create(LAST_N_TRADES));
         boughtRecents.add(tradeMessage.getAmountBuy());
         trends.put(boughtCurrency, boughtRecents);
 
