@@ -7,6 +7,7 @@ import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import obrien.Util.GarbageCollector;
 import obrien.Util.RateLimitProvider;
 import obrien.configuration.AppConfiguration;
 import obrien.dao.TradeDao;
@@ -26,7 +27,7 @@ public class App extends Application<AppConfiguration> {
 
     private final HibernateBundle<AppConfiguration> hibernateBundle;
     private final FlywayBundle flywayBundle;
-
+    private GarbageCollector garbageCollector;
 
     public static void main(String[] args) throws Exception {
         new App().run(args);
@@ -73,6 +74,9 @@ public class App extends Application<AppConfiguration> {
         final ReadmeResource readmeResource = new ReadmeResource(configuration);
         final TradeResource tradeResource = new TradeResource(configuration, tradeDao, rateLimitProvider);
         final TrendsResource trendsResource = new TrendsResource();
+
+        // session factory is only available at this stage
+        this.garbageCollector = new GarbageCollector(1000*60*10L, hibernateBundle.getSessionFactory());
 
         environment.jersey().register(readmeResource);
         environment.jersey().register(tradeResource);
