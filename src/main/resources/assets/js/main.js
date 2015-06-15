@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var socket = new WebSocket('ws://localhost:8080/api/ws');
+	var socket = new WebSocket('ws://trade-processor.herokuapp.com/api/ws');
 	var container = $('#trades');
 
 	socket.onmessage = function(data) {

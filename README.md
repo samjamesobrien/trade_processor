@@ -9,7 +9,7 @@ toy project using dropwizard designed to be deployable to Heroku
 - Proper test coverage
 - security and authentication
 - GC of stored trades after a certain time and persisting overall metrics only
-- more interesting metrics and processing
+- more interesting metrics and processing using rxjava Observable streams
 - more Interfaces, refactoring and more providers with configurable fields
 
 
@@ -57,16 +57,17 @@ Configurable per user rate limiting has been implemented using guavas RateLimite
 Per user RateLimiter objects are cached.
 
 
+Trends - Processing
+-------------------
+
+Persistence and processing metrics are performed in a seperate thread pool to the API calls, ideally this speeds up message
+ingestion. The calculated metrics are very simple, and pushed to a web socket.
+
 Dependency Injection
 --------------------
 
-...was not used. In my experience using the Guice dropwizard plugin or dependency injection in general with dropwizard leads
-to more trouble than it saves. The Dropwizard lifecycle means that in certain circumstances you will not have access to
-configuration fields, as the injected Config class may not have been initialized, as it only exists after the bootstrap phase.
-
-This breaks the abstraction that we can just magically have a config object when needed, and leads to some awkward code.
-
-So for this project I opted against dependency injection although it would have worked just fine for this use case.
+...was not used. For this project I opted against dependency injection although it would have worked just fine for this use case.
+However I have always used Guice in Dropwizard so not using it seemed more interesting and hands on.
 
 
 Flyway & database migration
