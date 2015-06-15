@@ -8,7 +8,6 @@ toy project using dropwizard designed to be deployable to Heroku
 
 - Proper test coverage
 - security and authentication
-- GC of stored trades after a certain time and persisting overall metrics only
 - more interesting metrics and processing using rxjava Observable streams
 - more Interfaces, refactoring and more providers with configurable fields
 
@@ -60,14 +59,21 @@ Per user RateLimiter objects are cached.
 Trends - Processing
 -------------------
 
-Persistence and processing metrics are performed in a seperate thread pool to the API calls, ideally this speeds up message
+Persistence and processing metrics are performed in a separate thread pool to the API calls, ideally this speeds up message
 ingestion. The calculated metrics are very simple, and pushed to a web socket.
+The metrics are calculated every 500 milliseconds and pushed to the websocket.
 
 Dependency Injection
 --------------------
 
 ...was not used. For this project I opted against dependency injection although it would have worked just fine for this use case.
-However I have always used Guice in Dropwizard so not using it seemed more interesting and hands on.
+However I have always used Guice in Dropwizard so decided not to this time.
+
+
+Garbage Collection
+------------------
+
+The App instance has a GarbageCollector, it just checks the DB every 10 minutes and deleted entries older than 30 minutes.
 
 
 Flyway & database migration
