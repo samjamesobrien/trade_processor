@@ -32,7 +32,7 @@ public class TradeResourceTest {
         tradeResource = new TradeResource(config, dao, rlp);
 
         tradeMessage = new TradeMessage();
-        tradeMessage.setId(12345);
+        tradeMessage.setUserId(12345);
     }
 
     /**

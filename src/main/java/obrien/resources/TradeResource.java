@@ -51,7 +51,7 @@ public class TradeResource {
     @POST
     public Response submitMessage(TradeMessage tradeMessage) {
         RateLimiter rl = rlp.getRateLimiter(tradeMessage.getUserId());
-        if (rl.tryAcquire(100, TimeUnit.MILLISECONDS)) {
+        if (rl.tryAcquire(0, TimeUnit.MILLISECONDS)) {
             dao.insert(tradeMessage);
             LOG.debug("User: {} registered a trade", tradeMessage.getUserId());
             return Response.status(200).build();
