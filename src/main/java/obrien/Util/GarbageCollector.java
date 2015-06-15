@@ -1,8 +1,5 @@
 package obrien.Util;
 
-import obrien.App;
-import obrien.dao.Dao;
-import obrien.processing.Trends;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,7 +35,6 @@ public class GarbageCollector {
         timerTask = new TimerTask () {
             @Override
             public void run () {
-                log.info(" * * * ");
                 clearOldEntries();
             }
         };
@@ -52,15 +48,19 @@ public class GarbageCollector {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        Calendar calender = Calendar.getInstance();
-        calender.add(Calendar.MINUTE, -30);
+        Calendar future = Calendar.getInstance();
+        future.add(Calendar.MINUTE, +10);   // aloow some leeway
 
-        Query query = session.createQuery("DELETE FROM TradeMessage where timePlaced < :date");
-        query.setCalendarDate("date", calender);
+        Calendar past = Calendar.getInstance();
+        past.add(Calendar.MINUTE, -30);
+
+        Query query = session.createQuery("DELETE FROM TradeMessage where timePlaced < :past  OR timePlaced > :future");
+        query.setCalendarDate("past", past);
+        query.setCalendarDate("future", future);
         int deleted = query.executeUpdate();
 
         tx.commit();
         session.close();
-        log.info("Garbage collection occurred, deleted: {} entries", deleted);
+        log.info(" * * * Garbage collection occurred * * * deleted: {} entries", deleted);
     }
 }
