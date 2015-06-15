@@ -28,7 +28,7 @@ public class TradeResourceTest {
         TradeDao dao = mock(TradeDao.class);
         RateLimitProvider rlp = new RateLimitProvider(config);
 
-        stub(config.getRateLimit()).toReturn(3);
+        stub(config.getRateLimit()).toReturn(1);
         tradeResource = new TradeResource(config, dao, rlp);
 
         tradeMessage = new TradeMessage();
