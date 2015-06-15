@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 		console.log("got a message: " + data.data.toSource);
 		var newItem = $('<div>' + data.data + '</div>');
-		document.getElementById($('#trades')).innerHTML="";
+		document.getElementById('trades').innerHTML="";
 		container.append(newItem);
 	};
 });
