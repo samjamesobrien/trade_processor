@@ -19,11 +19,11 @@ Jackson validates these and will reject malformed objects
 
 Submit a trade
 
-`curl -i -X POST {location}/api/trade  -H "Content-Type: application/json" -d '{"userId":"134256","currencyFrom":"EUR","currencyTo":"GBP","amountSell":1000,"amountBuy":747.10,"rate":0.7471,"timePlaced":"24-JAN-15 10:27:44","originatingCountry":"FR"}'`
+`curl -i -X POST {location}/api/trade  -H "Content-Type: application/json" -d '{"userId":"1234","currencyFrom":"EUR","currencyTo":"GBP","amountSell":100,"amountBuy":74.73,"rate":0.7473,"timePlaced":"10-JAN-16 10:30:30","originatingCountry":"FR"}'`
 
 Get a users trades
 
-`curl -i -X GET {location}/api/trade/134256  -H "Content-Type: application/json"`
+`curl -i -X GET {location}/api/trade/1234  -H "Content-Type: application/json"`
 
 The index page
 
