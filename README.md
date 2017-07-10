@@ -63,15 +63,9 @@ Persistence and processing metrics are performed in a separate thread pool to th
 ingestion. The calculated metrics are very simple, and pushed to a web socket.
 The metrics are calculated every 500 milliseconds and pushed to the websocket.
 
-Dependency Injection
---------------------
 
-...was not used. For this project I opted against dependency injection although it would have worked just fine for this use case.
-However I have always used Guice in Dropwizard so decided not to this time.
-
-
-Garbage Collection
-------------------
+DB Garbage Collection
+---------------------
 
 The App instance has a GarbageCollector, it just checks the DB every 10 minutes and deleted entries older than 30 minutes.
 
